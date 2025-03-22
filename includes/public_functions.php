@@ -54,4 +54,26 @@ function getTopicNameById($id)
     return $topic ['name'];
 }
 
+
+function getPost($slug){
+    global $conn;
+    $post_slug = $_GET['post-slug'];
+    $sql = "SELECT * FROM posts WHERE slug='$post_slug' AND published=true";
+    $result = mysqli_query($conn, $sql);
+
+    $post = mysqli_fetch_assoc($result);
+    if ($post) {
+        $post['topic'] = getPostTopic($post['id']);
+    }
+    return $post;
+}
+
+function getAllTopics()
+{
+    global $conn;
+    $sql = "SELECT * FROM topics";
+    $result = mysqli_query($conn, $sql);
+    $topics = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return $topics;
+}
 ?>
